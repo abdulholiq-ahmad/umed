@@ -8,8 +8,16 @@ interface TimelineProps {
 
 const Timeline: React.FC<TimelineProps> = ({ records }) => {
   const [filter, setFilter] = useState<string>('All');
+  const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
 
   const filters = ['All', RecordType.PRESCRIPTION, RecordType.LAB_RESULT, RecordType.VACCINATION, RecordType.CHECKUP];
+
+  const handleFilterChange = (newFilter: string) => {
+    const currentIndex = filters.indexOf(filter);
+    const newIndex = filters.indexOf(newFilter);
+    setSlideDirection(newIndex > currentIndex ? 'right' : 'left');
+    setFilter(newFilter);
+  };
 
   const typeLabels: Record<string, string> = {
     'All': 'Barchasi',
@@ -55,11 +63,11 @@ const Timeline: React.FC<TimelineProps> = ({ records }) => {
             {filters.map(f => (
             <button
                 key={f}
-                onClick={() => setFilter(f)}
-                className={`px-4 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-colors ${
-                filter === f 
-                    ? 'bg-slate-800 text-white shadow-md' 
-                    : 'bg-white border border-slate-200 text-slate-500 hover:bg-slate-50'
+                onClick={() => handleFilterChange(f)}
+                className={`px-4 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-300 ${
+                filter === f
+                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30 scale-105'
+                    : 'bg-white border border-slate-200 text-slate-500 hover:bg-slate-50 hover:border-slate-300'
                 }`}
             >
                 {typeLabels[f] || f}
@@ -69,14 +77,18 @@ const Timeline: React.FC<TimelineProps> = ({ records }) => {
       </div>
 
       {/* Timeline Content */}
-      <div className="flex-1 overflow-y-auto no-scrollbar p-6">
+      <div className="flex-1 overflow-y-auto no-scrollbar p-6 pb-28">
+        <div
+          key={filter}
+          className={`${slideDirection === 'right' ? 'animate-slide-left' : 'animate-slide-right'}`}
+        >
         {filteredRecords.length === 0 ? (
            <div className="flex flex-col items-center justify-center h-64 text-slate-400">
              <Filter size={48} strokeWidth={1.5} className="opacity-20 mb-4" />
              <p>Ushbu filtr bo'yicha yozuvlar topilmadi.</p>
            </div>
         ) : (
-            <div className="relative pl-4 border-l-2 border-slate-200 space-y-8 pb-10">
+            <div className="relative pl-4 border-l-2 border-slate-200 space-y-8">
             {filteredRecords.map((record, index) => (
                 <div key={record.id} className="relative">
                 {/* Timeline Node */}
@@ -90,7 +102,7 @@ const Timeline: React.FC<TimelineProps> = ({ records }) => {
                 </div>
 
                 {/* Card */}
-                <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow ml-2">
+                <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all duration-200 hover:scale-[1.02] ml-2">
                     <div className="flex justify-between items-start mb-2">
                     <div className="flex items-center gap-2">
                         <div className={`w-8 h-8 rounded-lg flex items-center justify-center border ${getTypeColor(record.type)}`}>
@@ -122,6 +134,7 @@ const Timeline: React.FC<TimelineProps> = ({ records }) => {
             ))}
             </div>
         )}
+        </div>
       </div>
     </div>
   );

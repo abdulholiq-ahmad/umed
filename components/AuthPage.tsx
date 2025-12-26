@@ -182,7 +182,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin }) => {
             <Header title="Ro'yxatdan o'tish" subtitle="Yangi hisob yarating" />
             
             <div className="flex-1 px-6 -mt-10 pb-6 overflow-y-auto">
-                <div className="bg-white rounded-[32px] p-8 shadow-xl shadow-slate-200/50 space-y-5 animate-slide-up relative z-10">
+                <div className="bg-white rounded-[32px] p-8 shadow-xl shadow-slate-200/50 space-y-5 relative z-10">
                     
                     {error && (
                         <div className="bg-red-50 text-red-600 p-3 rounded-xl text-sm font-medium flex items-center gap-2 animate-shake">
@@ -289,7 +289,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin }) => {
 
         {/* Login Card */}
         <div className="flex-1 px-6 -mt-10 pb-6 overflow-y-auto">
-            <div className="bg-white rounded-[32px] p-8 shadow-xl shadow-slate-200/50 space-y-6 animate-slide-up relative z-10">
+            <div className="bg-white rounded-[32px] p-8 shadow-xl shadow-slate-200/50 space-y-6 relative z-10">
                 
                 {error && (
                     <div className="bg-red-50 text-red-600 p-3 rounded-xl text-sm font-medium flex items-center gap-2 animate-shake">
