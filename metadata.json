@@ -1,0 +1,8 @@
+{
+  "name": "MediVault AI",
+  "description": "Gemini AI asosidagi shaxsiy tibbiy ma'lumotlar va oilaviy salomatlikni nazorat qiluvchi ilova.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
