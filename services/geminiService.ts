@@ -33,7 +33,7 @@ export const analyzeMedicalDocument = async (base64Image: string, userContext: s
         },
       },
       {
-        text: `Role: Siz "MediVault" ilovasi uchun yuqori malakali tibbiy AI assistentisiz.
+        text: `Role: Siz "UMED" ilovasi uchun yuqori malakali tibbiy AI assistentisiz.
         Context: Foydalanuvchi (${userContext}) o'z tibbiy hujjati yoki alomatining rasmini yukladi.
         Task: Rasmni tahlil qiling va shifokorga taqdim etish uchun strukturalashgan hisobot tayyorlang.
 
@@ -96,7 +96,7 @@ export const chatWithAI = async (message: string, context: string) => {
     const model = ai.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
     const result = await model.generateContent(
-      `Siz MediVault ilovasida professional oilaviy shifokor maslahatchisisiz.
+      `Siz UMED ilovasida professional oilaviy shifokor maslahatchisisiz.
 
       Bemor ma'lumotlari: ${context}
 

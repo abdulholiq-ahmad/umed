@@ -14,8 +14,47 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const validatePhone = (p: string) => p.trim().length >= 13; // +998 XX XXX XX XX
+  const formatPhoneNumber = (value: string) => {
+    // Remove all non-digits except '+'
+    const cleaned = value.replace(/[^\d+]/g, '');
+
+    // Ensure it starts with +998
+    if (!cleaned.startsWith('+998')) {
+      return '+998 ';
+    }
+
+    // Get only the digits after +998
+    const digits = cleaned.substring(4);
+
+    // Format: +998 XX XXX XX XX
+    let formatted = '+998';
+    if (digits.length > 0) {
+      formatted += ' ' + digits.substring(0, 2);
+    }
+    if (digits.length > 2) {
+      formatted += ' ' + digits.substring(2, 5);
+    }
+    if (digits.length > 5) {
+      formatted += ' ' + digits.substring(5, 7);
+    }
+    if (digits.length > 7) {
+      formatted += ' ' + digits.substring(7, 9);
+    }
+
+    return formatted;
+  };
+
+  const handlePhoneChange = (value: string) => {
+    const formatted = formatPhoneNumber(value);
+    setPhone(formatted);
+  };
+
+  const validatePhone = (p: string) => {
+    const digitsOnly = p.replace(/[^\d]/g, '');
+    return digitsOnly.length === 12; // +998 + 9 digits
+  };
 
   const handleLogin = () => {
     setError('');
@@ -87,7 +126,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin }) => {
             </div>
             
             <h1 className="text-4xl font-bold text-white mb-4 animate-slide-up" style={{ animationDelay: '0.1s' }}>
-                MediVault AI
+                UMED
             </h1>
             <p className="text-blue-100 text-lg leading-relaxed max-w-xs animate-slide-up" style={{ animationDelay: '0.2s' }}>
                 Sizning va oilangizning salomatlik tarixi ishonchli qo'llarda.
@@ -173,30 +212,30 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin }) => {
                             <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-slate-400 shadow-sm border border-slate-50">
                                 <Smartphone size={20} strokeWidth={1.5} />
                             </div>
-                            <input 
-                                type="text" 
+                            <input
+                                type="text"
                                 value={phone}
-                                onChange={(e) => setPhone(e.target.value)}
+                                onChange={(e) => handlePhoneChange(e.target.value)}
                                 className="flex-1 bg-transparent px-4 py-2 outline-none text-slate-800 font-bold text-lg placeholder:text-slate-300"
-                                placeholder="+998"
+                                placeholder="+998 XX XXX XX XX"
                             />
                         </div>
                     </div>
 
                     <div className="space-y-2">
                         <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1">Parol</label>
-                        <div className="bg-slate-50 border border-slate-100 rounded-2xl p-1 flex items-center focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/10 transition-all">
+                        <div className="bg-slate-50 border border-slate-100 rounded-2xl p-1 flex items-center focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/10 transition-all relative">
                             <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-slate-400 shadow-sm border border-slate-50">
                                 <Lock size={20} strokeWidth={1.5} />
                             </div>
-                            <input 
+                            <input
                                 type={showPassword ? "text" : "password"}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="flex-1 bg-transparent px-4 py-2 outline-none text-slate-800 font-bold text-lg placeholder:text-slate-300"
+                                className="flex-1 bg-transparent px-4 py-2 pr-12 outline-none text-slate-800 font-bold text-lg placeholder:text-slate-300"
                                 placeholder="••••••"
                             />
-                            <button type="button" onClick={() => setShowPassword(!showPassword)} className="pr-4 text-slate-400">
+                            <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 text-slate-400 hover:text-slate-600 transition-colors">
                                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                             </button>
                         </div>
@@ -204,17 +243,20 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin }) => {
 
                      <div className="space-y-2">
                         <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1">Parolni tasdiqlang</label>
-                        <div className="bg-slate-50 border border-slate-100 rounded-2xl p-1 flex items-center focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/10 transition-all">
+                        <div className="bg-slate-50 border border-slate-100 rounded-2xl p-1 flex items-center focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/10 transition-all relative">
                             <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-slate-400 shadow-sm border border-slate-50">
                                 <Lock size={20} strokeWidth={1.5} />
                             </div>
-                            <input 
-                                type="password"
+                            <input
+                                type={showConfirmPassword ? "text" : "password"}
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
-                                className="flex-1 bg-transparent px-4 py-2 outline-none text-slate-800 font-bold text-lg placeholder:text-slate-300"
+                                className="flex-1 bg-transparent px-4 py-2 pr-12 outline-none text-slate-800 font-bold text-lg placeholder:text-slate-300"
                                 placeholder="••••••"
                             />
+                            <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-4 text-slate-400 hover:text-slate-600 transition-colors">
+                                {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                            </button>
                         </div>
                     </div>
 
@@ -261,30 +303,30 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin }) => {
                         <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-slate-400 shadow-sm border border-slate-50">
                             <Smartphone size={20} strokeWidth={1.5} />
                         </div>
-                        <input 
-                            type="text" 
+                        <input
+                            type="text"
                             value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
+                            onChange={(e) => handlePhoneChange(e.target.value)}
                             className="flex-1 bg-transparent px-4 py-2 outline-none text-slate-800 font-bold text-lg placeholder:text-slate-300"
-                            placeholder="+998"
+                            placeholder="+998 XX XXX XX XX"
                         />
                     </div>
                 </div>
 
                 <div className="space-y-2">
                     <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1">Parol</label>
-                    <div className="bg-slate-50 border border-slate-100 rounded-2xl p-1 flex items-center focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/10 transition-all">
+                    <div className="bg-slate-50 border border-slate-100 rounded-2xl p-1 flex items-center focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/10 transition-all relative">
                         <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-slate-400 shadow-sm border border-slate-50">
                             <Lock size={20} strokeWidth={1.5} />
                         </div>
-                        <input 
-                            type={showPassword ? "text" : "password"} 
+                        <input
+                            type={showPassword ? "text" : "password"}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="flex-1 bg-transparent px-4 py-2 outline-none text-slate-800 font-bold text-lg placeholder:text-slate-300"
+                            className="flex-1 bg-transparent px-4 py-2 pr-12 outline-none text-slate-800 font-bold text-lg placeholder:text-slate-300"
                             placeholder="••••••"
                         />
-                         <button type="button" onClick={() => setShowPassword(!showPassword)} className="pr-4 text-slate-400">
+                        <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 text-slate-400 hover:text-slate-600 transition-colors">
                             {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                         </button>
                     </div>

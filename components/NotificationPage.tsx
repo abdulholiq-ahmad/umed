@@ -30,7 +30,7 @@ const INITIAL_NOTIFICATIONS = [
         id: '3',
         type: 'system',
         title: 'Tizim yangilandi',
-        message: 'MediVault ilovasi yangi versiyaga o\'tdi. Yangi imkoniyatlar bilan tanishing.',
+        message: 'UMED ilovasi yangi versiyaga o\'tdi. Yangi imkoniyatlar bilan tanishing.',
         time: 'Kecha',
         isUnread: false,
         isUrgent: false

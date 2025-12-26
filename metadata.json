@@ -1,5 +1,5 @@
 {
-  "name": "MediVault AI",
+  "name": "UMED",
   "description": "Gemini AI asosidagi shaxsiy tibbiy ma'lumotlar va oilaviy salomatlikni nazorat qiluvchi ilova.",
   "requestFramePermissions": [
     "camera",

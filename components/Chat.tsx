@@ -26,7 +26,7 @@ const Chat: React.FC<ChatProps> = ({ userContext, onBack }) => {
     {
       id: 'welcome',
       role: 'model',
-      text: `Assalomu alaykum! Men MediVault AI yordamchisiman. ${userContext} bo'yicha qanday tibbiy savolingiz bor?`,
+      text: `Assalomu alaykum! Men UMED AI yordamchisiman. ${userContext} bo'yicha qanday tibbiy savolingiz bor?`,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);

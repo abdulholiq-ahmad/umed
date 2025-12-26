@@ -22,7 +22,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ isOpen, onClose }) => {
         <div className="p-6 flex justify-between items-center border-b border-slate-100">
           <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
             <Zap className="text-blue-600 fill-current" size={20} />
-            MediVault
+            UMED
           </h2>
           <button 
             onClick={onClose}
